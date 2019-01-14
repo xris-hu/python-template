@@ -67,6 +67,11 @@ def Main(operation, args):
         return TokenTransferFromMulti(exchangeId, orders)
 
 def AddToken(symbol, hash):
+    """
+    :param symbol:token symbol, like "ONT", "ONG"
+    :param hash: token script hash,such as ONT,ONG or other token hash, if success, this token can be exchanged on the exchange.
+    :return:True or False
+    """
     require(CheckWitness(Admin), "not admin")
     require(validateAddress(hash), "invalid contract hash")
 
@@ -94,6 +99,12 @@ def AddToken(symbol, hash):
     return True
 
 def RemoveToken(symbol, hash):
+    """
+
+    :param symbol:token symbol, like "ONT", "ONG"
+    :param hash: this token will be removed from the exchange.
+    :return:True or False
+    """
     require(CheckWitness(Admin), "not admin")
 
     supportToken = Get(ctx, SUPPORTED_TOKEN)
@@ -113,9 +124,19 @@ def RemoveToken(symbol, hash):
     return True
 
 def GetTokens():
+    """
+
+    :return:Get all the tokens that can be traded in the exchange, it will response a map data structure.
+    """
     return Get(ctx, SUPPORTED_TOKEN)
 
 def RegisterExchange(exchangeName, exchangeId):
+    """
+
+    :param exchangeName:exchange name, like "Huobi"
+    :param exchangeId:exchange Id, essentially it is also a wallet address, only this exchange account can invoke token proxy smart contract
+    :return:True or False
+    """
     require(CheckWitness(Admin), "not admin")
     require(validateAddress(exchangeId), "invalid exchange Id")
     require(exchangeName != "", "invalid exchange name")
@@ -140,6 +161,12 @@ def RegisterExchange(exchangeName, exchangeId):
     Put(ctx, REGISTERED_EXCHANGE, Serialize(exchangeMap))
 
 def RemoveExchange(exchangeName, exchangeId):
+    """
+
+    :param exchangeName:exchange name, like "Huobi"
+    :param exchangeId:exchange Id
+    :return:True or False, if success, the exchange can't invoke token proxy smart contract.
+    """
     require(CheckWitness(Admin), "not admin")
 
     registerExchange = Get(ctx, REGISTERED_EXCHANGE)
@@ -160,9 +187,19 @@ def RemoveExchange(exchangeName, exchangeId):
 
 
 def GetAuthorizedExchange():
+    """
+
+    :return:Get all the exchange list that can invoke token proxy smart contract.
+    """
     return Get(ctx, REGISTERED_EXCHANGE)
 
 def TokenTransferFrom(exchangeId, order):
+    """
+
+    :param exchangeId:exchange id, Invoked only by registered exchange
+    :param order: the order is a map structure.
+    :return:True or false, if success, the maker and taker will get purpose token.
+    """
     expireTime = order['expireTime']
     require(GetTime() <= expireTime, "order expired")
     require(CheckWitness(exchangeId), "invalid exchange")
@@ -207,6 +244,12 @@ def TokenTransferFrom(exchangeId, order):
     return True
 
 def TokenTransferFromMulti(exchangeId, orders):
+    """
+
+    :param exchangeId:exchange id, Invoked only by registered exchange
+    :param orders: orders is "TokenTransferFromMulti" fucntion parameter order array list.
+    :return:
+    """
     require(CheckWitness(exchangeId), "invalid exchange")
     if not Get(ctx, concatKey(EXCHANGE_ID_PREFIX, exchangeId)):
         return False
