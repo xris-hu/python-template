@@ -11,7 +11,7 @@ OEP-35 is a standard cryto token exchange protocol for DDXF, it divides the exch
 
 ## 2. Arichitecture
 
-![DDXF-ARCH](https://ws4.sinaimg.cn/large/006tNc79gy1fyzbzs2itbj30mi0gz3zc.jpg)
+![DDXF-ARCH](/Users/huguanjun/Work/DDXF/DDXF-ARCH.png)
 
 ## 3. Exchange
 
@@ -52,7 +52,7 @@ def AddToken(symbol:string, contractHash:bytearray)
 def RemoveToken(symbol:string, contractHash:bytearray)
 ```
 - `symbol` is token symbol, like "ONT", "ONG"
-- contractHash`  This token will be removed from the exchange. 
+- `contractHash`  This token will be removed from the exchange. 
 
 **Invoked only by smart contract admin**
 
@@ -61,15 +61,21 @@ def RemoveToken(symbol:string, contractHash:bytearray)
 ```python
 def GetTokens()
 ```
-- Get all the tokens that can be traded in the exchange, it will response a map data structure.
+- Get all the tokens that can be traded in the exchange, it will response json data .
 
+```python
+{
+	"ONT":"0000000000000000000000000000000000000001",
+    "ONG":"0000000000000000000000000000000000000002"
+}
+```
 #### 4.1.4 RegisterExchange
 
 ```python
 def RegisterExchange(exchangeName:string, exchangeId:bytearray)
 ```
 - `exchangeName` is exchange name, like "Huobi"
-- exchangeId` is exchange Id, essentially it is also a wallet address, only this exchange account can invoke token proxy smart contract
+- `exchangeId` is exchange Id, essentially it is also a wallet address, only this exchange account can invoke token proxy smart contract
 
 #### 4.1.5 RemoveExchange
 
@@ -77,7 +83,7 @@ def RegisterExchange(exchangeName:string, exchangeId:bytearray)
 def RemoveExchange(exchangeId:bytearray)
 ```
 - `exchangeName` is exchange name, like "Huobi"
-- exchangeId` is exchange Id，if success, the exchange can't invoke token proxy smart contract.
+- `exchangeId` is exchange Id，if success, the exchange can't invoke token proxy smart contract.
 
 **Invoked only by smart  contract admin**
 
@@ -86,7 +92,15 @@ def RemoveExchange(exchangeId:bytearray)
 ```python
 def GetAuthorizedExchange()
 ```
-- Get all the exchange list that can invoke token proxy smart contract.
+- Get all the exchange list that can invoke token proxy smart contract, it will response json data.
+
+```python
+
+  {
+  "Huobi":"4cf4354d2d0ed34cbb80d09b364f0b5aeb14770a"
+  }
+  
+```
 
 #### 4.1.7 TokenTransferFrom
 
@@ -96,9 +110,9 @@ def TokenTransferFrom(exchangeId:bytearray, order:Order)
 -  `exchangerId`exchange id, **Invoked only by registered exchange**
 -  `order` base on  [Order Message Format](### 3.1 Order-Message-Format)
 
-This function will finish the token settlement on blockchain according the order message.
+This function will finish token settlement on blockchain according the order message.
 
-**Note:**The user needs to approve the tokens to token proxy smart contract in advance.
+**Note:**The user need to approve the tokens to token proxy smart contract in advance.
 
 
 #### 4.1.8 TokenTransferFromMulti
