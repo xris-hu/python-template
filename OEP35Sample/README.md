@@ -40,7 +40,9 @@ OEP-35 is a standard cryto token exchange protocol for DDXF, it divides the exch
 
 ```python
 def AddToken(symbol:string, contractHash:bytearray)
-``` - `symbol` is token symbol, like "ONT", "ONG"
+```
+
+- `symbol` is token symbol, like "ONT", "ONG"
 - `contractHash` token script hash,such as ONT,ONG or other token hash, if success, this token can be exchanged on the exchange.
 
 **Invoked only by smart contract admin**
@@ -50,6 +52,7 @@ def AddToken(symbol:string, contractHash:bytearray)
 ```python
 def RemoveToken(symbol:string, contractHash:bytearray)
 ```
+
 - `symbol` is token symbol, like "ONT", "ONG"
 - `contractHash`  This token will be removed from the exchange. 
 
