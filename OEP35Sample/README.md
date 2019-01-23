@@ -107,11 +107,11 @@ def GetAuthorizedExchange()
 def TokenTransferFrom(exchangeId:bytearray, order:Order)
 ```
 -  `exchangerId`exchange id, **Invoked only by registered exchange**
--  `order` base on  [Order Message Format](### 3.1 Order-Message-Format)
+-  `order` follow the order message format standards defined in above document.
 
 This function will finish token settlement on blockchain according the order message.
 
-**Note:**The user need to approve the tokens to token proxy smart contract in advance.
+**Note:** User need to approve the tokens to token proxy smart contract in advance.
 
 
 #### 4.1.8 TokenTransferFromMulti
