@@ -1,10 +1,10 @@
-from ontology.libont import AddressFromVmCode, bytes2hexstring, bytearray_reverse
 from ontology.interop.Ontology.Native import Invoke
 from ontology.interop.Ontology.Runtime import Base58ToAddress
 from ontology.builtins import bytearray, hash160, Exception, state
-from ontology.interop.System.Storage import Put, GetContext, Get, Delete
 from ontology.interop.System.App import RegisterAppCall, DynamicAppCall
+from ontology.interop.System.Storage import Put, GetContext, Get, Delete
 from ontology.interop.System.ExecutionEngine import GetExecutingScriptHash
+from ontology.libont import AddressFromVmCode, bytes2hexstring, bytearray_reverse
 from ontology.interop.System.Runtime import CheckWitness, Notify, Serialize, Deserialize, GetTime
 
 ####################################
@@ -14,7 +14,7 @@ Admin = Base58ToAddress('AGjD4Mo25kzcStyh1stp7tXkUuMopD43NT')
 ONTAddress = bytearray(b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x01')
 ONGAddress = bytearray(b'\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x02')
 
-#################Prefix Setting####################
+#################Prefix Setting#####
 TOKEN_SYMBOL_PREFIX = 'TOKEN_SYMBOL'
 TOKEN_HASH_PREFIX = 'TOKEN_HASH'
 SUPPORTED_TOKEN = 'SUPPORTED_TOKEN'
@@ -223,14 +223,11 @@ def TokenTransferFrom(exchangeId, order):
     else:
         require(DynamicAppCall(bytearray_reverse(makerHash), "transferFrom", [ContractAddress, maker, taker, makerAmount]), "transfer maker token to taker failed")
 
-    Notify("111")
 
     if isNativeAsset(takerHash):
         require(transferFromNative(takerHash, ContractAddress, taker, maker, takerAmount), "transfer from taker asset failed")
     else:
         require(DynamicAppCall(bytearray_reverse(takerHash), "transferFrom", [ContractAddress, taker, maker, takerAmount]), "transfer taker token to maker failed")
-
-    Notify("222")
 
     if isNativeAsset(feeTokenHash):
         require(transferFromNative(feeTokenHash, ContractAddress, maker, feeFeceiver, makerFee), "charge maker fee failed")
