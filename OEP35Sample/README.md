@@ -11,7 +11,7 @@ OEP-35 is a standard cryto token exchange protocol for DDXF, it divides the exch
 
 ## 2. Arichitecture
 
-![DDXF-ARCH](/Users/huguanjun/Work/DDXF/DDXF-ARCH.png)
+![DDXF-ARCH](./DDXF-ARCH.png)
 
 ## 3. Exchange
 
@@ -40,8 +40,7 @@ OEP-35 is a standard cryto token exchange protocol for DDXF, it divides the exch
 
 ```python
 def AddToken(symbol:string, contractHash:bytearray)
-```
-- `symbol` is token symbol, like "ONT", "ONG"
+``` - `symbol` is token symbol, like "ONT", "ONG"
 - `contractHash` token script hash,such as ONT,ONG or other token hash, if success, this token can be exchanged on the exchange.
 
 **Invoked only by smart contract admin**
